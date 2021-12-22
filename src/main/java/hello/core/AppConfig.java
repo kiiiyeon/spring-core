@@ -14,20 +14,46 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+
+    /*
+    @Bean memberService -> new MemoryMemberRepository()
+    @Bean orderService -> new MemoryMemberRepository(), new FixDiscountPolicy()
+    서비스 객체 생성할 때 레포지토리, 할인 정책 객체가 새로 생김 -> 각각 다른 MemoryMemberRepository()가 생성되는 것 같음 -> 싱글톤을 지킬 수 있을까?
+     */
+
     @Bean
     public MemberService memberService() { //역할
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository()); //구현
     }
 
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     @Bean
     public OrderService orderService() {
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
+
+    /*
+    예상
+    call AppConfig.memberService (memberService)
+    call AppConfig.memberRepository (memberService)
+    call AppConfig.memberRepository (memberRepository)
+    call AppConfig.orderService (orderService)
+    call AppConfig.memberRepository (orderService)
+     */
+
+    /*
+    결과
+    call AppConfig.memberService
+    call AppConfig.memberRepository
+    call AppConfig.orderService
+     */
 
     @Bean //스프링 컨테이너에 등록
     public DiscountPolicy discountPolicy() { //할인 정책으로
