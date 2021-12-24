@@ -9,7 +9,7 @@ import org.springframework.context.annotation.FilterType;
 
 @Configuration
 @ComponentScan(
-        basePackages = "hello.core.member",
+        basePackages = "hello.core",
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
 )
 /*
@@ -19,8 +19,10 @@ basePackagesClasses -> 탐색 클래스 지정, 클래스의 맨 위에 있는 p
 excludeFilters -> AppConfig Configuration 배제
  */
 public class AutoAppConfig {
+    /*
     @Bean(name = "memoryMemberRepository")
     public MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
+     */
 }
